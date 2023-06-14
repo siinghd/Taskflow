@@ -6,6 +6,19 @@ import React, { useState } from 'react'
 import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from "../ui/menubar"
 import TLink from 'next-intl/link'
 import MobileMenu from './MobileMenu'
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import DialogLogin from '../Dialog/DialogLogin'
 
 interface HeaderProps {
     locale: string;
@@ -41,7 +54,11 @@ const Header: React.FC<HeaderProps>  = (props) => {
                         </MenubarContent>
                     </MenubarMenu>
                 </Menubar>
-                <i className="text-xl cursor-pointer bi bi-person"/>
+                        
+                <DialogLogin 
+                    triggerElement={<i className="text-xl cursor-pointer bi bi-person"/>}
+                />
+
             </div>
         </div>
         {/* Phone Hamburger Icon */}

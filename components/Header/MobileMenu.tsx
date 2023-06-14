@@ -1,5 +1,6 @@
 import React from 'react'
 import TLink from 'next-intl/link'
+import DialogLogin from '../Dialog/DialogLogin';
 
 interface MobileMenuProps {
     mobileMenu: boolean;
@@ -23,7 +24,9 @@ const MobileMenu: React.FC<MobileMenuProps> = (props) => {
                 <TLink href="/" locale={props.locale === 'it' ? 'en' : 'it'}>{props.locale === 'it' ? 'EN' : 'IT'}</TLink>
             </div>
             <div className='bg-white/40 border-[1px] border-dark/50 transition hover:bg-white/50 rounded-md w-[60px] flex center h-[35px]'>
-                <i className="text-xl cursor-pointer bi bi-person"/>
+            <DialogLogin 
+                triggerElement={<i className="text-xl cursor-pointer bi bi-person"/>}
+            />
             </div>
         </div>
         <div className='text-white font-title text-[20px]'>
