@@ -9,7 +9,7 @@
     "start": "node ./build/src/index.js",
     "dev": "nodemon ./src/index.ts",
     "build": "tsc -p .",
-    "lint": "eslint ./",
+    "lint": "eslint ",
     "lint:fix": "yarn lint --fix"
   },
   "keywords": [
