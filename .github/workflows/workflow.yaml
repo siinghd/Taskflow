@@ -34,7 +34,7 @@ jobs:
       - name: Build Docker image
         run: |
           sudo mkdir -p /var/envs
-          cp ./.env.example /var/envs/taskflow_backend.env
+          sudo cp ./.env.example /var/envs/taskflow_backend.env
           docker compose build
         # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
         # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
@@ -66,7 +66,7 @@ jobs:
       - name: Build Docker image
         run: |
           sudo mkdir -p /var/envs
-          cp ./.env.example /var/envs/taskflow_backend.env
+          sudo cp ./.env.example /var/envs/taskflow_backend.env
           docker compose build
         # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
         # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
@@ -93,7 +93,7 @@ jobs:
       - name: Build and push Docker image
         run: |
           sudo mkdir -p /var/envs
-          cp ./.env.example /var/envs/taskflow_backend.env
+          sudo cp ./.env.example /var/envs/taskflow_backend.env
           docker compose build
           docker compose push
         # docker-compose build -t taskflow/time:${{ steps.datetime.outputs.date }} .
