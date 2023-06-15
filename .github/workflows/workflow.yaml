@@ -31,9 +31,9 @@ jobs:
       #   id: datetime
       #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-      - name: Build Docker image
-        run: |
-          docker compose build
+      # - name: Build Docker image
+      #   run: |
+      #     docker compose build
         # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
         # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
   
@@ -61,9 +61,9 @@ jobs:
       #   id: datetime
       #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
-      - name: Build Docker image
-        run: |
-          docker compose build
+      # - name: Build Docker image
+      #   run: |
+      #     docker compose build
         # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
         # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
 
