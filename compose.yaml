@@ -28,7 +28,7 @@ services:
         condition: service_healthy
     env_file:
       # - ./backend/.env
-      - /home/dev/utilities/envs/taskflow_backend.env
+      - /var/envs/taskflow_backend.env
     restart: unless-stopped
   frontend:
     image: ${REGISTRY_HOST}/taskflow_frontend:latest

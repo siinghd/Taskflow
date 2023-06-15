@@ -3,5 +3,16 @@
         "home-title": "Simplify Your Content Submission",
         "home-sub1": "Effortlessly submit your project’s text and images. Just upload your files with correct dimensions and let us handle the rest.",
         "home-sub2": "Streamline the process and focus on your vision."
+    },
+    "Profile": {
+        "welcome": "Welcome",
+        "you-filled-in": "You filled in",
+        "out-of": "out of",
+        "fields-correctly": "fields correctly",
+        "completed": "Completed",
+        "missing": "Missing",
+        "filter-title": "Filter title",
+        "save": "Save",
+        "notify": "Click on the bell to notify us that you completed your tasks!"
     }
 }
