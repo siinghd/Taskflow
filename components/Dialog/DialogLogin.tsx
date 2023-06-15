@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useRouter } from 'next/navigation';
 
 interface DialogLoginProps {
     triggerElement: React.ReactNode;
@@ -21,6 +22,8 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ triggerElement }) => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+
+    const router = useRouter()
 
   return (
     <Dialog>
@@ -78,7 +81,12 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ triggerElement }) => {
             </div>
             </div>
             <DialogFooter>
-            <Button type="submit">Log In</Button>
+                <Button 
+                    type="submit"
+                    onClick={() => router.push('/profile')}
+                >
+                    Log In
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
