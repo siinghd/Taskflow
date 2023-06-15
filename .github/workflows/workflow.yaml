@@ -6,12 +6,16 @@ on:
       - '*'
 
 jobs:
-  lint:
+
+  build-frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install pnpm
         run: |
@@ -23,30 +27,54 @@ jobs:
       - name: Run lint checks
         run: pnpm run lint
 
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set date and time variables
-        id: datetime
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+      # - name: Set date and time variables
+      #   id: datetime
+      #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
 
       - name: Build Docker image
         run: |
-          docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
-          docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+          docker compose build
+        # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
+        # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+  
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install pnpm
+        run: |
+          curl -L https://unpkg.com/@pnpm/self-installer | node
+
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Run lint checks
+        run: pnpm run lint
+
+      # - name: Set date and time variables
+      #   id: datetime
+      #   run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+      - name: Build Docker image
+        run: |
+          docker compose build
+        # docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
+        # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
 
   deploy:
-    needs: [lint, build]
+    needs: [build-backend, build-backend]
     if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -60,21 +88,32 @@ jobs:
       # artifacts can be used to pass the docker image down here
       - name: Build and push Docker image
         run: |
-          docker build -t taskflow/time:${{ steps.datetime.outputs.date }} .
-          docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
-          docker push ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+          docker compose build
+          docker compose push
+        # docker-compose build -t taskflow/time:${{ steps.datetime.outputs.date }} .
+        # docker tag taskflow/time:${{ steps.datetime.outputs.date }} ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+        # docker push ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
 
       - name: Grant Docker permissions
         run: sudo chmod 666 /var/run/docker.sock
-
-      - name: SSH into the server and execute command
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH key
+        uses: webfactory/ssh-agent@v0.7.0
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            docker stop taskflow
-            docker rm taskflow
-            docker pull ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
-            docker run -d --name taskflow -p 3502:3001 ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+
+      - name: Copy Docker Compose file to server
+        run: scp -r compose.yaml ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/home/dev/utilities/dcompose/taskflow/
+
+      - name: Execute Docker Compose on server
+        run: ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "cd /home/dev/utilities/dcompose/taskflow/ && docker-compose up -d"
+      # - name: SSH into the server and execute command
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: ${{ secrets.SERVER_IP }}
+      #     username: ${{ secrets.SERVER_USERNAME }}
+      #     key: ${{ secrets.SERVER_SSH_KEY }}
+      #     script: |
+      #       docker stop taskflow
+      #       docker rm taskflow
+      #       docker pull ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+      #       docker run -d --name taskflow -p 3502:3001 ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
