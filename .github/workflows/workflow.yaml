@@ -100,24 +100,34 @@ jobs:
 
       - name: Grant Docker permissions
         run: sudo chmod 666 /var/run/docker.sock
-      - name: Set up SSH key
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
-
-      - name: Copy Docker Compose file to server
-        run: scp -r compose.yaml ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/home/dev/utilities/dcompose/taskflow/
-
-      - name: Execute Docker Compose on server
-        run: ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "cd /home/dev/utilities/dcompose/taskflow/ && docker-compose up -d"
-      # - name: SSH into the server and execute command
-      #   uses: appleboy/ssh-action@master
+      # - name: Set up SSH key
+      #   uses: webfactory/ssh-agent@v0.7.0
       #   with:
-      #     host: ${{ secrets.SERVER_IP }}
-      #     username: ${{ secrets.SERVER_USERNAME }}
-      #     key: ${{ secrets.SERVER_SSH_KEY }}
-      #     script: |
-      #       docker stop taskflow
-      #       docker rm taskflow
-      #       docker pull ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
-      #       docker run -d --name taskflow -p 3502:3001 ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+      #     ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
+
+      # - name: Copy Docker Compose file to server
+      #   run: scp -r compose.yaml ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }}:/home/dev/utilities/dcompose/taskflow/
+
+      # - name: Execute Docker Compose on server
+      #   run: ssh ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_IP }} "cd /home/dev/utilities/dcompose/taskflow/ && docker-compose up -d"
+      - name: SSH into the server and execute command
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "compose.yaml"
+          target: /home/dev/utilities/dcompose/taskflow/
+      - name: SSH into the server and execute command
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /home/dev/utilities/dcompose/taskflow/
+            docker-compose up -d
+          # docker stop taskflow
+          # docker rm taskflow
+          # docker pull ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
+          # docker run -d --name taskflow -p 3502:3001 ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
