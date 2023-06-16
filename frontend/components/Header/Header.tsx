@@ -6,19 +6,8 @@ import React, { useState } from 'react'
 import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from "../ui/menubar"
 import TLink from 'next-intl/link'
 import MobileMenu from './MobileMenu'
-import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import DialogLogin from '../Dialog/DialogLogin'
+import { usePathname } from 'next/navigation';
 
 interface HeaderProps {
     locale: string;
@@ -26,6 +15,8 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps>  = (props) => {
     const [mobileMenu, setMobileMenu] = useState(false)
+    const path = usePathname()
+    console.log(path)
   return (
     <header className='container fixed top-0 left-0 right-0 z-10 flex items-center justify-between w-full py-4 mx-auto bg-white md:justify-normal text-dark text'>
         <div className='hidden w-1/3 font-title md:block'>
@@ -49,8 +40,9 @@ const Header: React.FC<HeaderProps>  = (props) => {
                             </div>
                         </MenubarTrigger>
                         <MenubarContent className='max-w-[100px] min-w-fit cursor-pointer bg-white border-[1px] border-dark'>
-                            <MenubarItem className='bg-white cursor-pointer hover:!bg-dark/10'><TLink href="/" locale="it">IT</TLink></MenubarItem>
-                            <MenubarItem className='bg-white cursor-pointer hover:!bg-dark/10'><TLink href="/" locale="en">EN</TLink></MenubarItem>
+                            {/* TODO la lingua non cambia perché path punta sempre all'attuale con il /lingua davanti */}
+                            <MenubarItem className='bg-white cursor-pointer hover:!bg-dark/10'><TLink href={path} locale="it">IT</TLink></MenubarItem>
+                            <MenubarItem className='bg-white cursor-pointer hover:!bg-dark/10'><TLink href={path} locale="en">EN</TLink></MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                 </Menubar>
@@ -72,6 +64,7 @@ const Header: React.FC<HeaderProps>  = (props) => {
             mobileMenu={mobileMenu}
             setMobileMenu={setMobileMenu}
             locale={props.locale}
+            path={path}
         />
     </header>
   )

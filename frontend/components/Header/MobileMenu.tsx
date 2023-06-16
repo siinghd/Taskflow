@@ -6,6 +6,7 @@ interface MobileMenuProps {
     mobileMenu: boolean;
     setMobileMenu: React.Dispatch<React.SetStateAction<boolean>>;
     locale: string;
+    path: string;
 }
   
 const MobileMenu: React.FC<MobileMenuProps> = (props) => {
@@ -21,7 +22,7 @@ const MobileMenu: React.FC<MobileMenuProps> = (props) => {
         </div>
         <div className='flex flex-col items-end gap-4'>
             <div className='bg-white/40 border-[1px] border-dark/50 transition hover:bg-white/50 rounded-md w-[60px] flex center h-[35px]'>
-                <TLink href="/" locale={props.locale === 'it' ? 'en' : 'it'}>{props.locale === 'it' ? 'EN' : 'IT'}</TLink>
+                <TLink href={props.path} locale={props.locale === 'it' ? 'en' : 'it'}>{props.locale === 'it' ? 'EN' : 'IT'}</TLink>
             </div>
             <div className='bg-white/40 border-[1px] border-dark/50 transition hover:bg-white/50 rounded-md w-[60px] flex center h-[35px]'>
             <DialogLogin 
