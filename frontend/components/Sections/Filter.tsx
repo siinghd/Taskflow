@@ -13,7 +13,7 @@ interface FilterProps {
 const Filter: React.FC<FilterProps> = (props) => {
     const [filter, setFilter] = useState('')
   return (
-    <div className='flex flex-wrap justify-center gap-4 md:gap-8 md:justify-start'>
+    <div className='flex flex-wrap justify-center gap-4 select-none md:gap-8 md:justify-start'>
         <Input 
             id="filter" 
             value={filter} 

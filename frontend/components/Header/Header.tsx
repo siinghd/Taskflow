@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps>  = (props) => {
         <div className='hidden w-1/3 font-title md:block'>
             by <a href='https://redergo.com/' target='_blank'>redergo</a>
         </div>
-        <div className='flex md:w-1/3 center'>
+        <div className='flex select-none md:w-1/3 center'>
             <Link href="/">
                 <Image src="/img/logo.svg" alt='TaskFlow' width={250} height={100} className='max-w-[170px]'/>
             </Link>
