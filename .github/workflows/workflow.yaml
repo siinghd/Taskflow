@@ -126,7 +126,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/dev/utilities/dcompose/taskflow/
-            docker-compose up -d
+            docker compose up -d
           # docker stop taskflow
           # docker rm taskflow
           # docker pull ${{ secrets.DOCKER_USERNAME }}/taskflow:${{ steps.datetime.outputs.date }}
