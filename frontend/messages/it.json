@@ -13,6 +13,11 @@
         "missing": "Mancanti",
         "filter-title": "Filtra per titolo",
         "save": "Salva",
-        "notify": "Clicca sulla campanella per notificarci che hai finito!"
+        "notify": "Clicca sulla campanella per notificarci che hai finito!",
+        "done": "Fatti"
+    },
+    "NewProject": {
+        "there-are-currently": "Ci sono attualmente",
+        "fields": "campi"
     }
 }

@@ -13,6 +13,11 @@
         "missing": "Missing",
         "filter-title": "Filter title",
         "save": "Save",
-        "notify": "Click on the bell to notify us that you completed your tasks!"
+        "notify": "Click on the bell to notify us that you completed your tasks!",
+        "done": "Done"
+    },
+    "NewProject": {
+        "there-are-currently": "There are currently",
+        "fields": "fields"
     }
 }
