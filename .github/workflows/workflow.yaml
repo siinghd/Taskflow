@@ -108,7 +108,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            cd /homes/dev/sites
+            cd /home/${{ secrets.SERVER_USERNAME }}/sites/
             git pull
             cd Taskflow
             docker compose stop
