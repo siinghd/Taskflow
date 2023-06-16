@@ -30,7 +30,6 @@ const Task: React.FC<TaskProps> = ({
   texts,
   images,
 }) => {
-    console.log(type, texts)
   return (
     <div className="w-full border-[1px] border-dark rounded-md px-2 md:px-4 flex justify-between gap-2">
       <Accordion type="single" collapsible className="w-full">
