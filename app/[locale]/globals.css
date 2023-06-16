@@ -81,6 +81,36 @@
 ;
 }
 
+::-moz-selection { /* Code for Firefox */
+  color: #F3EEE4;
+  background: #665B5B;
+}
+
+::selection {
+  color: #F3EEE4;
+  background: #665B5B;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #F3EEE4;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(102, 91, 91, .3);
+}
+
+*:focus-visible {
+  outline: none;
+}
+
 .big-title {
   font-family: gopher, sans-serif;
   font-style: normal;
