@@ -6,6 +6,7 @@ import Project from '../Cards/Project';
 import projects from '../../data/projects'
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface AdminPageProps {
     user: {
@@ -37,18 +38,20 @@ const AdminPage: React.FC<AdminPageProps> = ({
         <div className='grid grid-cols-1 gap-3 mt-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
             {projects.map((project, index) => {
                 return (
-                    <Project 
-                        key={index}
-                        id={project.id}
-                        title={project.title}
-                        createdAt={project.createdAt}
-                        lastModified={project.lastModified}
-                        done={project.done}
-                    />
+                    <Link key={project.id} href="/[locale]/profile/[id]" as={`/en/profile/${project.id}`}>
+                        <Project 
+                            key={index}
+                            id={project.id}
+                            title={project.title}
+                            createdAt={project.createdAt}
+                            lastModified={project.lastModified}
+                            done={project.done}
+                        />
+                    </Link>
                 );
             })}
         </div>
-        <div className='flex mt-8 center'>
+        <div className='flex my-8 center'>
             <Button 
                 type='button'
                 onClick={() => router.push('/profile/project')}

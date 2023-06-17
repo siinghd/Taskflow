@@ -120,7 +120,7 @@ const ProjectSection: React.FC<ProjectSectionProps> = ({
                 <PopoverTrigger asChild>
                     <Button onClick={() => setPopoverOpen((prev) => !prev)}>Add new</Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[500px]" ref={popoverRef}>
+                <PopoverContent className="w-full md:min-w-[500px]" ref={popoverRef}>
                     <div className="grid gap-4"> 
                         <div className="space-y-2">
                             <h4 className="leading-none title">Add a new task</h4>
