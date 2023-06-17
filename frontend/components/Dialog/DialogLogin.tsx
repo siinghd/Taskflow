@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useRouter } from 'next/navigation';
+import useOutsideClick from '@/hooks/useOutsideClick';
 
 interface DialogLoginProps {
     triggerElement: React.ReactNode;
@@ -25,12 +26,24 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ triggerElement }) => {
 
     const router = useRouter()
 
+    const [dialogOpen, setDialogOpen] = useState(false)
+    
+    const dialogRef = useRef<HTMLDivElement>(null);
+
+    const toggleDialog = () => {
+        setDialogOpen((prev) => !prev)
+    }
+    
+    useOutsideClick(dialogRef, toggleDialog);
+
   return (
-    <Dialog>
+    <Dialog defaultOpen={false} open={dialogOpen}>
         <DialogTrigger asChild>
-            {triggerElement}
+            <div onClick={toggleDialog}>
+                {triggerElement}
+            </div>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[525px]">
+        <DialogContent className="sm:max-w-[525px]" ref={dialogRef}>
             <DialogHeader>
             <DialogTitle>Enter in Taskflow</DialogTitle>
             <DialogDescription>
@@ -83,7 +96,7 @@ const DialogLogin: React.FC<DialogLoginProps> = ({ triggerElement }) => {
             <DialogFooter>
                 <Button 
                     type="submit"
-                    onClick={() => router.push('/profile')}
+                    onClick={() => {router.push('/profile'); toggleDialog()}}
                 >
                     Log In
                 </Button>
